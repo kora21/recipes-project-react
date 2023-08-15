@@ -91,8 +91,7 @@ class Recipe(models.Model):
         verbose_name="Время приготовления",
         default=0,
         validators=[
-            MinValueValidator(1, message='Минимальное значение 1!')]
-        )
+            MinValueValidator(1, message='Минимальное значение 1!')])
 
     class Meta:
         verbose_name = "Рецепт"

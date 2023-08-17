@@ -4,7 +4,6 @@ volumes:
   pg_data:
   static:
   media:
-  redoc:
 
 services:
   db:
@@ -18,7 +17,6 @@ services:
     volumes:
       - static:/backend_static
       - media:/app/media/
-      - redoc:/app/api/docs/
     depends_on:
       - db
   frontend:
@@ -27,7 +25,7 @@ services:
       dockerfile: Dockerfile
     volumes:
       - ../frontend/:/app/result_build/
-  nginx:
+  gateway:
     image: nginx:1.19.3
     ports:
       - "8000:80"
@@ -37,7 +35,6 @@ services:
       - ../docs/:/usr/share/nginx/html/api/docs/
       - static:/staticfiles/
       - media:/media/
-      - redoc:/usr/share/nginx/html/api/docs/
     depends_on:
       - backend
       - frontend 

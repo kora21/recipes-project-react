@@ -24,7 +24,7 @@ services:
     volumes:
       - ../frontend/:/app/result_build/
   gateway:
-    image: nginx:1.19.3
+    image: userr12345/foodgram_gateway:latest
     ports:
       - "8000:80"
     volumes:

@@ -20,7 +20,6 @@ services:
     depends_on:
       - db
   frontend:
-    build:
       image: userr12345/foodgram_frontend:latest
     volumes:
       - ../frontend/:/app/result_build/

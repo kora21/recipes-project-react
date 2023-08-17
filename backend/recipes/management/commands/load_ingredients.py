@@ -15,7 +15,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         for model, csv_file in MODELS_DATA.items():
-            with open(str(CSV_PATH) + csv_file, mode="r", encoding="utf-8"
+            with open(str(CSV_PATH) + csv_file, mode='r', encoding='utf-8'
                       ) as file:
                 reader = csv.DictReader(file)
                 for row in reader:

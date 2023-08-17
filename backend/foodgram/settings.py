@@ -8,7 +8,8 @@ SECRET_KEY = 'django-insecure-a#$(fih7eo^_8ukc@8^%3kl^xd98n-uzyuy-hg5zmbjog'
 
 DEBUG = True
 
-ALLOWED_HOSTS = ['158.160.72.124', '127.0.0.1', 'localhost', ]
+ALLOWED_HOSTS = ['158.160.72.124', '127.0.0.1', 'localhost',
+                 'foodgrams.hopto.org']
 
 AUTH_USER_MODEL = 'users.User'
 
@@ -101,17 +102,17 @@ REST_FRAMEWORK = {
 
 DJOSER = {
     'LOGIN_FIELD': 'email',
-    "HIDE_USERS": False,
+    'HIDE_USERS': False,
 
-    "SERIALIZERS": {
-        "user_create": "api.serializers.UserSerializer",
-        "user": "api.serializers.UserSerializer",
-        "current_user": "api.serializers.UserSerializer",
+    'SERIALIZERS': {
+        'user_create': 'api.serializers.UserSerializer',
+        'user': 'api.serializers.UserSerializer',
+        'current_user': 'api.serializers.UserSerializer',
     },
 
-    "PERMISSIONS": {
-        "user": ["djoser.permissions.CurrentUserOrAdminOrReadOnly"],
-        "user_list": ["rest_framework.permissions.IsAuthenticatedOrReadOnly"],
+    'PERMISSIONS': {
+        'user': ['djoser.permissions.CurrentUserOrAdminOrReadOnly'],
+        'user_list': ['rest_framework.permissions.IsAuthenticatedOrReadOnly'],
     },
 
 }

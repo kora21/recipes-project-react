@@ -5,35 +5,26 @@ from recipes.models import (Favorite, Ingredient, IngredientRecipe, Recipe,
 from users.models import Subscriptions
 
 
+@admin.register(Tag)
 class TagAdmin(admin.ModelAdmin):
     list_display = ('name', 'colour', 'slug')
-    # list_editable = ('colour', 'name')
     search_fields = ('name', 'colour')
-    # list_filter = ('slug',)
     empty_value_display = '-пусто-'
 
 
-admin.site.register(Tag, TagAdmin)
-
-
+@admin.register(Ingredient)
 class IngredientAdmin(admin.ModelAdmin):
     list_display = ('name', 'measurement_unit')
-    # list_editable = ('name',)
     search_fields = ('name',)
     list_filter = ('name',)
     empty_value_display = '-пусто-'
 
 
-admin.site.register(Ingredient, IngredientAdmin)
-
-
+@admin.register(Recipe)
 class RecipeAdmin(admin.ModelAdmin):
     list_display = ('author', 'name', 'id', 'cooking_time', 'count_favorites')
-    # list_editable = ('ingredients', 'cooking_time', 'name')
     search_fields = ('name',)
     list_filter = ('author', 'name', 'tags')
-    # inlines = (IngredientRecipeInLine)
-    # readonly_fields = ('added_in_favorites',)
     empty_value_display = '-пусто-'
 
     @display(description='в избранных')
@@ -41,48 +32,29 @@ class RecipeAdmin(admin.ModelAdmin):
         return obj.in_favorites.count()
 
 
-admin.site.register(Recipe, RecipeAdmin)
-
-
+@admin.register(IngredientRecipe)
 class IngredientRecipeAdmin(admin.ModelAdmin):
     list_display = ('recipe', 'ingredient', 'amount')
-    # list_editable = ('Recipe', 'Amount')
     search_fields = ('ingredient',)
     list_filter = ('recipe',)
     empty_value_display = '-пусто-'
 
 
-admin.site.register(IngredientRecipe, IngredientRecipeAdmin)
-
-
+@admin.register(Favorite)
 class FavoriteAdmin(admin.ModelAdmin):
     list_display = ('user', 'recipe', 'date_added')
-    # list_editable = ('recipe')
     search_fields = ('recipe',)
-    # list_filter = ('user',)
     empty_value_display = '-пусто-'
 
 
-admin.site.register(Favorite, FavoriteAdmin)
-
-
+@admin.register(Shopping_cart)
 class Shopping_CartAdmin(admin.ModelAdmin):
     list_display = ('user', 'recipe', 'date_added')
-    # list_editable = ('recipe')
     search_fields = ('recipe', 'user')
-    # list_filter = ('user',)
     empty_value_display = '-пусто-'
 
 
-admin.site.register(Shopping_cart, Shopping_CartAdmin)
-
-
+@admin.register(Subscriptions)
 class SubscriptionsAdmin(admin.ModelAdmin):
     list_display = ('user', 'author')
-    # list_editable = ('User')
-    # search_fields = ('user')
-    # list_filter = ('user')
     empty_value_display = '-пусто-'
-
-
-admin.site.register(Subscriptions, SubscriptionsAdmin)

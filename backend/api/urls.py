@@ -15,4 +15,4 @@ router.register(r'users/(?P<user_id>\d+)/subscribe/', CustomUserViewSet,
 urlpatterns = [
     path('', include(router.urls)),
     path('', include('djoser.urls')),
-    path('auth/', include("djoser.urls.authtoken")), ]
+    path('auth/', include('djoser.urls.authtoken')), ]

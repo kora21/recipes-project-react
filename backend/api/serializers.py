@@ -28,7 +28,7 @@ class UserSerializer(serializers.ModelSerializer):
     def get_is_subscribed(self, obj):
         '''Проверка подписки пользователей.'''
         user = self.context.get('request').user
-        if user.is_anonymous or (user == obj):
+        if user.is_anonymous and (user == obj):
             return False
         return Subscriptions.objects.filter(user=user, author=obj).exists()
 
@@ -110,24 +110,28 @@ class IngredientSerializer(serializers.ModelSerializer):
     '''Сериалайзер для модели Ingredient'''
     class Meta:
         model = Ingredient
-        fields = '__all__'
         read_only_fields = ('__all__',)
 
 
 class IngredientRecipeSerealizer(serializers.ModelSerializer):
     '''Сериалайзер для модели Ингридиентов и Блюд'''
     id = serializers.IntegerField()
+    name = serializers.ReadOnlyField(source='ingredient.name')
+    measurement_unit = serializers.ReadOnlyField(
+        source='ingredient.measurement_unit'
+    )
 
     class Meta:
         model = IngredientRecipe
-        fields = ('id', 'amount')
+        fields = ('id', 'name', 'measurement_unit', 'amount',)
 
 
 class RecipeReadSerializer(serializers.ModelSerializer):
     '''Сериализатор для получения рецепта'''
     tags = TagSerializer(many=True, read_only=True)
     author = UserSerializer(read_only=True)
-    ingredients = IngredientRecipeSerealizer(many=True)
+    ingredients = IngredientRecipeSerealizer(many=True,
+                                             source='ingredient')
     image = Base64ImageField()
     is_favorited = serializers.SerializerMethodField()
     is_in_shopping_cart = serializers.SerializerMethodField()
@@ -137,6 +141,10 @@ class RecipeReadSerializer(serializers.ModelSerializer):
         fields = ('tags', 'ingredients', 'author', 'id',
                   'name', 'image', 'text', 'cooking_time',
                   'is_favorited', 'is_in_shopping_cart')
+
+    def get_ingredients(self, obj):
+        ingredients = IngredientRecipe.objects.filter(recipe=obj)
+        return IngredientRecipeSerealizer(ingredients, many=True).data
 
     def get_is_favorited(self, obj):
         '''Проверка - находится ли рецепт в избранном.'''

@@ -14,24 +14,24 @@ services:
   backend:
     image: userr12345/foodgram_backend:latest
     env_file: .env
+    depends_on:
+      - db
     volumes:
       - static:/backend_static
       - media:/app/media/
-    depends_on:
-      - db
   frontend:
     image: userr12345/foodgram_frontend:latest
     volumes:
-      - ../frontend/:/app/result_build/
+      - ./frontend/:/app/result_build/
   gateway:
     image: userr12345/foodgram_gateway:latest
     volumes:
-      - ../frontend/build:/usr/share/nginx/html/
-      - ../docs/:/usr/share/nginx/html/api/docs/
+      - ./frontend/build:/usr/share/nginx/html/
+      - ./docs/:/usr/share/nginx/html/api/docs/
       - static:/staticfiles/
       - media:/media/
     depends_on:
       - backend
-      - frontend
+      - frontend 
     ports:
-      - 8000:80 
+      - 8000:80

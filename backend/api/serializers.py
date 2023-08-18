@@ -110,7 +110,7 @@ class IngredientSerializer(serializers.ModelSerializer):
     '''Сериалайзер для модели Ingredient'''
     class Meta:
         model = Ingredient
-        read_only_fields = ('__all__',)
+        fields = ('id', 'name', 'measurement_unit', )
 
 
 class IngredientRecipeSerealizer(serializers.ModelSerializer):
@@ -179,10 +179,10 @@ class RecipeCreateSerializer(serializers.ModelSerializer):
                   'name', 'image', 'text', 'cooking_time')
 
     @staticmethod
-    def add_list_ingredients(self, ingredients, recipe):
+    def add_list_ingredients(ingredients, recipe):
         '''Создание списка ингридиентов для рецепта.'''
         for ingredient in ingredients:
-            IngredientRecipe.objects.bulk_create(
+            IngredientRecipe.objects.create(
                 ingredient=Ingredient.objects.get(id=ingredient['id']),
                 amount=ingredient.get('amount'),
                 recipe=recipe

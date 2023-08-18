@@ -25,14 +25,13 @@ services:
       - ../frontend/:/app/result_build/
   gateway:
     image: userr12345/foodgram_gateway:latest
-    ports:
-      - "8000:80"
     volumes:
-      - ./nginx.conf:/etc/nginx/conf.d/default.conf
       - ../frontend/build:/usr/share/nginx/html/
       - ../docs/:/usr/share/nginx/html/api/docs/
       - static:/staticfiles/
       - media:/media/
     depends_on:
       - backend
-      - frontend 
+      - frontend
+    ports:
+      - 8000:80 

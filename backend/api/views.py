@@ -3,9 +3,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 from django.shortcuts import get_object_or_404
 from django.http.response import HttpResponse
 from djoser.views import UserViewSet
-from rest_framework.viewsets import ReadOnlyModelViewSet
 from rest_framework import permissions
-from rest_framework.viewsets import ReadOnlyModelViewSet
 from rest_framework.response import Response
 from rest_framework.status import (HTTP_201_CREATED, HTTP_400_BAD_REQUEST,
                                    HTTP_204_NO_CONTENT)
@@ -66,7 +64,7 @@ class CustomUserViewSet(UserViewSet):
         return self.get_paginated_response(serializer.data)
 
 
-class TagViewSet(ReadOnlyModelViewSet):
+class TagViewSet(viewsets.ReadOnlyModelViewSet):
     '''Работает с тэгами.Изменение и создание тэгов разрешено только
     админам.'''
     queryset = Tag.objects.all()
@@ -74,7 +72,7 @@ class TagViewSet(ReadOnlyModelViewSet):
     permission_classes = (IsAdminOrReadOnly, )
 
 
-class IngredientViewSet(ReadOnlyModelViewSet):
+class IngredientViewSet(viewsets.ReadOnlyModelViewSet):
     '''Работет с ингридиентами. Изменение и создание ингридиентов разрешено
     только админам.'''
     queryset = Ingredient.objects.all()

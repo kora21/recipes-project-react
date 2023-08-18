@@ -1,15 +1,15 @@
 ## Продуктовый помощник - foodgram
 
-![workflow](https://github.com/kora21/foodgram-project-react/actions/workflows/foodgram_workflow.yml/badge.svg)
-
 Foodgram - продуктовый помощник с базой кулинарных рецептов. Позволяет публиковать рецепты, сохранять избранные, подписываться на других авторов, а также формировать список покупок для выбранных рецептов.
 
-Проект доступен по [адресу](https://foodrams.hopto.org)
+Проект доступен по [адресу](https://158.160.72.124)
 
-```bash
-# Админ зона
+
+```
+Админ:
 Login: admin1
-Password: admin 
+Password: admin
+```
 
 ### Технологии:
 

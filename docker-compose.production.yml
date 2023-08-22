@@ -27,7 +27,7 @@ services:
     image: userr12345/foodgram_gateway:latest
     volumes:
       - ./frontend/build:/usr/share/nginx/html/
-      - ./docs/:/usr/share/nginx/html/docs/
+      - ./docs/:/usr/share/nginx/html/api/docs/
       - static:/staticfiles/
       - media:/media/
     depends_on:

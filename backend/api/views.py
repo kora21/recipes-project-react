@@ -4,11 +4,10 @@ from django_filters.rest_framework import DjangoFilterBackend
 from django.shortcuts import get_object_or_404
 from django.http.response import HttpResponse
 from djoser.views import UserViewSet
-from rest_framework import permissions
 from rest_framework.response import Response
 from rest_framework.status import (HTTP_201_CREATED, HTTP_400_BAD_REQUEST,
                                    HTTP_204_NO_CONTENT)
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from django.db.models import Sum
 from rest_framework import viewsets
 from recipes.models import (Favorite, Ingredient, IngredientRecipe,
@@ -82,13 +81,14 @@ class TagViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Tag.objects.all()
     serializer_class = TagSerializer
     permission_classes = (IsAdminOrReadOnly, )
+    permission_classes = [AllowAny, ]
 
 
 class IngredientViewSet(viewsets.ReadOnlyModelViewSet):
     """Работет с ингридиентами."""
     queryset = Ingredient.objects.all()
     serializer_class = IngredientSerializer
-    permission_classes = (IsOwnerOrReadOnly,)
+    permission_classes = [AllowAny, ]
     filter_backends = (DjangoFilterBackend, )
     filterset_class = IngredientFilter
 
@@ -106,6 +106,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
     """Работает с рецептами. Изменять рецепт может только автор или админы.
     Для авторизованных пользователей возможность добавить рецепт в избранное
     и в список покупок. Скачать текстовый файл со списком покупок"""
+    permission_classes = [IsOwnerOrReadOnly | IsAdminOrReadOnly, ]
     queryset = Recipe.objects.all()
     pagination_class = CustomPagination
     filter_backends = (DjangoFilterBackend,)
@@ -113,9 +114,14 @@ class RecipeViewSet(viewsets.ModelViewSet):
 
     def get_serializer_class(self):
         """Переопределение сериалайзера в зависимости от запроса"""
-        if self.request.method in permissions.SAFE_METHODS:
+        if self.request.method == 'GET':
             return RecipeReadSerializer
         return RecipeCreateSerializer
+
+    def get_serializer_context(self):
+        context = super().get_serializer_context()
+        context.update({'request': self.request})
+        return context
 
     def perform_create(self, serializer):
         """Добавление автора рецепта"""

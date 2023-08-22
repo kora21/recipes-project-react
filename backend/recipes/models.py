@@ -207,7 +207,3 @@ class Subscriptions(models.Model):
     class Meta:
         verbose_name = 'Подписка'
         verbose_name_plural = 'Подписки'
-
-    # def __str__(self):
-    #     return f'Пользователь {self.user.username} подписался на {
-    #         self.author.username}'

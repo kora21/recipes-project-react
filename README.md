@@ -120,18 +120,9 @@ docker-compose -f docker-compose-local.yml up -d
 
 После запуска проект будут доступен по адресу: [http://localhost/](http://localhost/)
 
-**POSTMAN**  
-Для полноценного использования API необходимо выполнить регистрацию пользователя и получить токен. Инструкция для ***Postman:***
+Для полноценного использования API необходимо выполнить регистрацию пользователя и получить токен. 
 
-Получить токен для тестового пользователя если выполнены все импорты:  
-POST http://localhost/api/auth/token/login/
-```json
-{
-    "email": "",
-    "password": ""
-}
-```
-Без импортов, регистрируем нового пользователя  
+Регистрируем нового пользователя: 
 POST http://localhost/api/users/
 ```json
 {
@@ -150,7 +141,7 @@ POST http://localhost/api/auth/token/login/
     "email": ""
 }
 ```
-Response status 200 OK ✅
+Response status 200 OK
 ```json
 {
     "token": "abcd..........."
@@ -161,73 +152,7 @@ Response status 200 OK ✅
 
 ### Примеры запросов:
 
-**`POST` | Создание рецепта: `http://127.0.0.1:8000/api/recipes/`**
-
-Request:
-```
-{
-  "ingredients": [
-    {
-      "id": 1123,
-      "amount": 10
-    }
-  ],
-  "tags": [
-    1,
-    2
-  ],
-  "image": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAgMAAABieywaAAAACVBMVEUAAAD///9fX1/S0ecCAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNoAAAAggCByxOyYQAAAABJRU5ErkJggg==",
-  "name": "string",
-  "text": "string",
-  "cooking_time": 1
-}
-```
-
-Response:
-```
-{
-  "count": 123,
-  "next": "http://foodgram.example.org/api/recipes/?page=4",
-  "previous": "http://foodgram.example.org/api/recipes/?page=2",
-  "results": [
-    {
-      "id": 0,
-      "tags": [
-        {
-          "id": 0,
-          "name": "Завтрак",
-          "color": "#E26C2D",
-          "slug": "breakfast"
-        }
-      ],
-      "author": {
-        "email": "user@example.com",
-        "id": 0,
-        "username": "string",
-        "first_name": "Вася",
-        "last_name": "Пупкин",
-        "is_subscribed": false
-      },
-      "ingredients": [
-        {
-          "id": 0,
-          "name": "Картофель отварной",
-          "measurement_unit": "г",
-          "amount": 1
-        }
-      ],
-      "is_favorited": true,
-      "is_in_shopping_cart": true,
-      "name": "string",
-      "image": "http://foodgram.example.org/media/recipes/images/image.jpeg",
-      "text": "string",
-      "cooking_time": 1
-    }
-  ]
-}
-```
-
-**`GET` | Получение ингредиента: `http://localhost:8000/api/ingredients/{id}/`**
+**`GET` | Получение ингредиента: `http://localhost:8000/api/ingredients/`**
 
 Response:
 ```
@@ -239,18 +164,17 @@ Response:
 
 ```
 
-**`POST` | Добавить рецепт в избранное: `http://localhost:8000/api/recipes/{id}/favorite/`**
+**`GET` | Получение тэгов: `http://localhost:8000/api/tags/`**
 
 Response:
 ```
 {
   "id": 0,
-  "name": "string",
-  "image": "http://foodgram.example.org/media/recipes/images/image.jpeg",
-  "cooking_time": 1
+  "color": "H#17..",
+  "slug "breakfast"
 }
-```
 
+```
 
 **`GET` | Получить список пользователей: `http://localhost:8000/api/users/`**
 

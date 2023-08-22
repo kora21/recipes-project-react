@@ -4,15 +4,11 @@ from django_filters.rest_framework import DjangoFilterBackend
 from django.shortcuts import get_object_or_404
 from django.http.response import HttpResponse
 from djoser.views import UserViewSet
-# from rest_framework.decorators import api_view
 from rest_framework import permissions
 from rest_framework.response import Response
-# from rest_framework.views import APIView
-# from rest_framework.routers import APIRootView
 from rest_framework.status import (HTTP_201_CREATED, HTTP_400_BAD_REQUEST,
                                    HTTP_204_NO_CONTENT)
-from rest_framework.permissions import (SAFE_METHODS, IsAuthenticated,
-                                        IsAuthenticatedOrReadOnly)
+from rest_framework.permissions import IsAuthenticated
 from django.db.models import Sum
 from rest_framework import viewsets
 from recipes.models import (Favorite, Ingredient, IngredientRecipe,
@@ -29,18 +25,14 @@ from api.serializers import (IngredientSerializer,
                              UserSubscribeSerializer,
                              TagSerializer)
 
-
 User = get_user_model()
 
 
 class CustomUserViewSet(UserViewSet):
     """Работает с пользователями."""
     queryset = User.objects.all()
-    # permission_classes = (IsAuthenticated,)
-    # serializer_class = CustomUserSerializer
-    # serializer_class = UserSubscribeSerializer
     pagination_class = CustomPagination
-    
+
     def get_serializer_class(self):
         if self.action == 'create':
             return CustomUserCreateSerializer
@@ -115,25 +107,19 @@ class RecipeViewSet(viewsets.ModelViewSet):
     Для авторизованных пользователей возможность добавить рецепт в избранное
     и в список покупок. Скачать текстовый файл со списком покупок"""
     queryset = Recipe.objects.all()
-    # permission_classes = (IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly, )
     pagination_class = CustomPagination
     filter_backends = (DjangoFilterBackend,)
     filterset_class = RecipeFilter
-    
+
     def get_serializer_class(self):
         """Переопределение сериалайзера в зависимости от запроса"""
         if self.request.method in permissions.SAFE_METHODS:
             return RecipeReadSerializer
         return RecipeCreateSerializer
-    
+
     def perform_create(self, serializer):
         """Добавление автора рецепта"""
         serializer.save(author=self.request.user)
-
-    # def get_permissions(self):
-    #     if self.action == 'update' or self.action == 'destroy':
-    #         return (IsOwnerOrReadOnly,)
-    #     return super().get_permissions()
 
     @action(methods=['post', 'delete'], detail=True,
             permission_classes=[IsAuthenticated])
@@ -192,4 +178,3 @@ class RecipeViewSet(viewsets.ModelViewSet):
         response = HttpResponse(shopping_list, content_type='text/plain')
         response['Content-Disposition'] = f'attachment; filename="{file}.txt"'
         return response
-

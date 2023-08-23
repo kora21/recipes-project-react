@@ -7,34 +7,34 @@ class User(AbstractUser):
     """Foodgram модель пользователя."""
 
     email = models.EmailField(
-        verbose_name="Адрес электронной почты",
+        verbose_name='Адрес электронной почты',
         max_length=MAX_LEN_FIELD,
         unique=True
     )
     username = models.CharField(
-        verbose_name="Уникальный юзернейм",
+        verbose_name='Уникальный юзернейм',
         max_length=MAX_LEN_USERS,
         unique=True,
     )
     first_name = models.CharField(
-        verbose_name="Имя",
+        verbose_name='Имя',
         max_length=MAX_LEN_USERS,
         blank=True
     )
     last_name = models.CharField(
-        verbose_name="Фамилия",
+        verbose_name='Фамилия',
         max_length=MAX_LEN_USERS,
         blank=True
     )
     password = models.CharField(
-        verbose_name=("Пароль"),
+        verbose_name=('Пароль'),
         max_length=MAX_LEN_FIELD,
         null=True
     )
 
     class Meta:
-        verbose_name = "Пользователь"
-        verbose_name_plural = "Пользователи"
+        verbose_name = 'Пользователь'
+        verbose_name_plural = 'Пользователи'
         ordering = ['id']
 
     def __str__(self):

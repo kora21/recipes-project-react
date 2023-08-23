@@ -161,7 +161,6 @@ Response:
   "name": "Капуста",
   "measurement_unit": "кг"
 }
-
 ```
 
 **`GET` | Получение тэгов: `http://localhost:8000/api/tags/`**
@@ -173,7 +172,6 @@ Response:
   "color": "H#17..",
   "slug "breakfast"
 }
-
 ```
 
 **`GET` | Получить список пользователей: `http://localhost:8000/api/users/`**
@@ -195,7 +193,75 @@ Response:
     }
   ]
 }
+```
 
+**`GET` | Получить список рецептов: `http://localhost:8000/api/recipes/`**
+
+Response:
+```
+{
+        "tags": [
+            {
+                "id": 3,
+                "name": "ужин",
+                "color": "#7da8ef",
+                "slug": "dinner"
+            }
+        ],
+        "ingredients": [
+            {
+                "id": 14,
+                "name": "макаронные изделия",
+                "measurement_unit": "г",
+                "amount": 500
+            },
+            {
+                "id": 15,
+                "name": "кабачки",
+                "measurement_unit": "г",
+                "amount": 250
+            },
+            {
+                "id": 16,
+                "name": "перец",
+                "measurement_unit": "г",
+                "amount": 200
+            },
+            {
+                "id": 17,
+                "name": "пармезан",
+                "measurement_unit": "г",
+                "amount": 100
+            },
+            {
+                "id": 18,
+                "name": "моцарелла",
+                "measurement_unit": "г",
+                "amount": 100
+            },
+            {
+                "id": 19,
+                "name": "сельдерей",
+                "measurement_unit": "г",
+                "amount": 100
+            }
+        ],
+        "author": {
+            "email": "admin1@mail.ru",
+            "id": 1,
+            "username": "admin",
+            "first_name": "",
+            "last_name": "",
+            "is_subscribed": false
+        },
+        "id": 4,
+        "name": "Вегетарианская лазанья",
+        "image": "http://158.160.72.124/media/recipe/a31a19e0-77b6-49fc-8c17-6d1eb3526ab2.jpg",
+        "text": "Яркая, до краев наполненная солнцем, сочными овощами, тягучей моцареллой и пряными травами. Отличная итальянская классика конца лета – начала осени.",
+        "cooking_time": 50,
+        "is_favorited": false,
+        "is_in_shopping_cart": false
+    },
 ```
 
 ### Автор:

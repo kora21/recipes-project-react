@@ -5,6 +5,8 @@ from drf_extra_fields.fields import Base64ImageField
 from recipes.models import (Ingredient, IngredientRecipe, Recipe,
                             Subscriptions, Tag)
 from rest_framework import serializers
+from rest_framework import status
+from rest_framework.exceptions import ValidationError
 
 User = get_user_model()
 
@@ -17,20 +19,21 @@ class CustomUserSerializer(UserSerializer):
     class Meta:
         model = User
         fields = (
-            "email",
-            "id",
-            "username",
-            "first_name",
-            "last_name",
-            "is_subscribed",
+            'email',
+            'id',
+            'username',
+            'first_name',
+            'last_name',
+            'is_subscribed',
         )
 
     def get_is_subscribed(self, obj):
         """Проверка подписки пользователей."""
         user = self.context.get('request').user
 
-        return not (user.is_anonymous or (user == obj)) and \
-            Subscriptions.objects.filter(user=user, author=obj).exists()
+        return (not (user.is_anonymous or (user == obj))
+                and Subscriptions.objects.filter(user=user,
+                                                 author=obj).exists())
 
 
 class CustomUserCreateSerializer(UserCreateSerializer):
@@ -61,32 +64,43 @@ class RecipeShortSerializer(serializers.ModelSerializer):
 
 class UserSubscribeSerializer(CustomUserSerializer):
     """Сериализатор вывода авторов на которых подписан текущий пользователь."""
-
     recipes = serializers.SerializerMethodField()
     recipes_count = serializers.SerializerMethodField()
 
     class Meta:
         model = User
         fields = (
-            "email",
-            "id",
-            "username",
-            "first_name",
-            "last_name",
-            "is_subscribed",
-            "recipes",
-            "recipes_count",
+            'email',
+            'id',
+            'username',
+            'first_name',
+            'last_name',
+            'is_subscribed',
+            'recipes',
+            'recipes_count',
         )
         read_only_fields = ('email', 'username')
+
+    def validate(self, data):
+        """Валидация подписки на самого себя."""
+        user = self.context.get('request').user
+        author = CustomUserSerializer(read_only=True)
+        if user == author:
+            raise ValidationError(
+                detail='Вы не можете подписаться на самого себя!',
+                code=status.HTTP_400_BAD_REQUEST)
+        return data
 
     def get_is_subscribed(self, obj):
         """Проверка подписки пользователей."""
         request = self.context.get('request')
-        return not (not request or request.user.is_anonymous) and \
-            Subscriptions.objects.filter(user=self.context.get(
-                                         'request').user, author=obj).exists()
+        return (not (not request or request.user.is_anonymous)
+                and Subscriptions.objects.filter(user=self.context.get(
+                                                 'request').user, author=obj
+                                                 ).exists())
 
     def get_recipes(self, obj):
+        """Показывает все рецепты сжатой версии."""
         recipe_objects = obj.recipes.all()
         recipe_serializer = RecipeShortSerializer(
             recipe_objects,
@@ -102,8 +116,8 @@ class TagSerializer(serializers.ModelSerializer):
     """Сериалайзер для модели Tag"""
     class Meta:
         model = Tag
-        fields = "__all__"
-        read_only_fields = ("__all__",)
+        fields = '__all__'
+        read_only_fields = ('__all__',)
 
 
 class IngredientSerializer(serializers.ModelSerializer):

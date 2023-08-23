@@ -49,11 +49,10 @@ class CustomUserViewSet(UserViewSet):
         user = request.user
         author_id = self.kwargs.get('id')
         author = get_object_or_404(User, id=author_id)
-
         if request.method == 'POST':
             serializer = UserSubscribeSerializer(author,
                                                  data=request.data,
-                                                 context={"request": request})
+                                                 context={'request': request})
             serializer.is_valid(raise_exception=True)
             Subscriptions.objects.create(user=user, author=author)
             return Response(serializer.data, status=HTTP_201_CREATED)
@@ -67,7 +66,7 @@ class CustomUserViewSet(UserViewSet):
 
     @action(detail=False, permission_classes=(IsAuthenticated,))
     def subscriptions(self, request):
-        """Список подписок пользоваетеля."""
+        """Список подписок пользователя."""
         pages = self.paginate_queryset(
             User.objects.filter(subscriber__user=self.request.user)
         )
@@ -160,7 +159,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
         return Response({'errors': 'Рецепт уже удален!'},
                         status=HTTP_400_BAD_REQUEST)
 
-    @action(methods=("get",), detail=False,
+    @action(methods=('get',), detail=False,
             permission_classes=[IsAuthenticated])
     def download_shopping_cart(self, request):
         """Загружает файл *.txt со списком покупок."""
@@ -175,9 +174,9 @@ class RecipeViewSet(viewsets.ModelViewSet):
         shopping_list = ['Список Покупок:']
         for ingredient in ingredients:
             shopping_list.append(
-                f"{ingredient['ingredient__name']} "
-                f"({ingredient['ingredient__measurement_unit']}) - "
-                f" - {ingredient['amount']}"
+                f'{ingredient["ingredient__name"]} '
+                f'({ingredient["ingredient__measurement_unit"]}) - '
+                f' - {ingredient["amount"]}'
             )
         shopping_list = '\n'.join(shopping_list)
         file = 'shopping_list.txt'

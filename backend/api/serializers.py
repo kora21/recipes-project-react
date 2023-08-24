@@ -5,8 +5,6 @@ from drf_extra_fields.fields import Base64ImageField
 from recipes.models import (Ingredient, IngredientRecipe, Recipe,
                             Subscriptions, Tag)
 from rest_framework import serializers
-from rest_framework import status
-from rest_framework.exceptions import ValidationError
 
 User = get_user_model()
 
@@ -80,16 +78,6 @@ class UserSubscribeSerializer(CustomUserSerializer):
             'recipes_count',
         )
         read_only_fields = ('email', 'username')
-
-    def validate(self, data):
-        """Валидация подписки на самого себя."""
-        user = self.context.get('request').user
-        author = CustomUserSerializer(read_only=True)
-        if user == author:
-            raise ValidationError(
-                detail='Вы не можете подписаться на самого себя!',
-                code=status.HTTP_400_BAD_REQUEST)
-        return data
 
     def get_is_subscribed(self, obj):
         """Проверка подписки пользователей."""

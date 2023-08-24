@@ -50,6 +50,16 @@ class CustomUserViewSet(UserViewSet):
         author_id = self.kwargs.get('id')
         author = get_object_or_404(User, id=author_id)
         if request.method == 'POST':
+            if Subscriptions.objects.filter(user=user, author=author).exists():
+                return Response(
+                    {'errors': 'Вы уже подписаны на этого пользователя!'},
+                    status=HTTP_400_BAD_REQUEST
+                )
+            if user == author:
+                return Response(
+                    {'errors': 'Вы не можете подписаться на самого себя!'},
+                    status=HTTP_400_BAD_REQUEST
+                )
             serializer = UserSubscribeSerializer(author,
                                                  data=request.data,
                                                  context={'request': request})

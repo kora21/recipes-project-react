@@ -77,10 +77,12 @@ class CustomUserViewSet(UserViewSet):
     @action(detail=False, permission_classes=(IsAuthenticated,))
     def subscriptions(self, request):
         """Список подписок пользователя."""
-        pages = self.paginate_queryset(
-            User.objects.filter(subscriber__user=self.request.user)
-        )
-        serializer = UserSubscribeSerializer(pages, many=True)
+        user = request.user
+        queryset = User.objects.filter(subscriber__user=user)
+        pages = self.paginate_queryset(queryset)
+        serializer = UserSubscribeSerializer(pages,
+                                             many=True,
+                                             context={'request': request})
         return self.get_paginated_response(serializer.data)
 
 

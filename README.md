@@ -2,17 +2,6 @@
 
 Foodgram - продуктовый помощник с базой кулинарных рецептов. Позволяет публиковать рецепты, сохранять избранные, подписываться на других авторов, а также формировать список покупок для выбранных рецептов.
 
-Проект доступен http://158.160.72.124/   https://foods.hopto.org
-
-### Документация API проекта:
-https://foods.hopto.org/api/docs/redoc.html
-
-### Суперпользователь:
-```
-Login: admin
-Password: admin
-```
-
 ### Технологии:
 
 Python 3.9, Django 3.2, DRF 3.13, Nginx, Docker, Docker-compose, Postgresql, Github Actions
@@ -28,6 +17,18 @@ Python 3.9, Django 3.2, DRF 3.13, Nginx, Docker, Docker-compose, Postgresql, Git
 [![Docker Hub](https://img.shields.io/badge/-Docker%20Hub-464646?style=flat&logo=Docker&logoColor=56C0C0&color=cd5c5c)](https://www.docker.com/products/docker-hub)
 [![GitHub%20Actions](https://img.shields.io/badge/-GitHub%20Actions-464646?style=flat&logo=GitHub%20actions&logoColor=56C0C0&color=0095b6)](https://github.com/features/actions)
 [![Yandex.Cloud](https://img.shields.io/badge/-Yandex.Cloud-464646?style=flat&logo=Yandex.Cloud&logoColor=56C0C0&color=cd5c5c)](https://cloud.yandex.ru/)
+
+
+Проект доступен http://158.160.72.124/   https://foods.hopto.org
+
+### Документация API проекта:
+https://foods.hopto.org/api/docs/redoc.html
+
+### Суперпользователь:
+```
+Login: admin
+Password: admin
+```
 
 ### Развернуть проект на удаленном сервере:
 

@@ -4,6 +4,8 @@ Foodgram - продуктовый помощник с базой кулинар�
 
 Проект доступен http://158.160.72.124/   https://foods.hopto.org
 
+### Документация API проекта:
+http://recipebook.hopto.org/api/docs/redoc.html
 
 ```
 Админ:
@@ -146,7 +148,7 @@ POST http://localhost/api/users/
 }
 ```
 Получаем токен  
-POST http://localhost/api/auth/token/login/
+**`POST` | http://localhost/api/auth/token/login/
 ```json
 {
     "password": "",

@@ -277,5 +277,4 @@ Response:
 ```
 
 ### Автор:
-
-Екатерина Тарасенко
+[Ekaterina Tarasenko](https://github.com/kora21/)

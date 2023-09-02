@@ -9,7 +9,6 @@ https://foods.hopto.org/api/docs/redoc.html
 
 ### Суперпользователь:
 ```
-Админ:
 Login: admin
 Password: admin
 ```
